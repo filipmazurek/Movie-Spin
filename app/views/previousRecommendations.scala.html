@@ -1,11 +1,4 @@
-@(user: MovieUser)(likeActors: List[UserFavoriteActor])(likeMovies: List[UserFavoriteMovie])
-
+@(user: MovieUser)
 @main("Your Likes", user) {
-  <p>Click on an Actor below to view more information:
-<ul>
-  @for(name <- likeActors) {
-    <li><a href="@routes.Application.viewActor(name)">@name</a></li>
-  }
-</ul>
-  </p>
+
 }

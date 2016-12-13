@@ -16,15 +16,10 @@ public class Application extends Controller {
         ));
     }
 
-//    @Security.Authenticated(Secured.class)
-//    public static Result previousRecommendations() {
-//        return ok(previousRecommendations.render(
-//                MovieUser.find.byId(request().username()),
-//                        UserFavoriteActor.findInvolving(request().username()),
-//                        UserFavoriteMovie.findInvolving(request().username())
-//                )
-//        );
-//    }
+    @Security.Authenticated(Secured.class)
+    public static Result previousRecommendations() {
+        return ok(previousRecommendations.render(MovieUser.find.byId(request().username())));
+    }
 
     @Security.Authenticated(Secured.class)
     public static Result discoverNew() {
