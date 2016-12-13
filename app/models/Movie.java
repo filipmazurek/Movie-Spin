@@ -1,8 +1,11 @@
 package models;
 
 import javax.persistence.*;
+
 import play.db.ebean.*;
-import com.avaje.ebean.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Filip Mazurek
@@ -13,18 +16,25 @@ public class Movie extends Model {
     @Id
     public int id;
     public String title;
-    public int runtime;
-    public String language;
-    public boolean isAdult;
     public String release_date;
-    public String summary;
     public String poster_path;
+    public boolean adult;
 
-    public Movie() {
 
+    public Movie(int id, String title, String release_date, String poster_path, boolean adult) {
+        this.id = id;
+        this.title = title;
+        this.release_date = release_date;
+        this.poster_path = poster_path;
+        this.adult = adult;
     }
 
-    public static Finder<String,Movie> find = new Finder<String,Movie>(
+    public static List<Movie> getMovie(int id) {
+        return find.where().eq("id",id).findList();
+    }
+
+
+    public static Finder<String, Movie> find = new Finder<String, Movie>(
             String.class, Movie.class
     );
 }
