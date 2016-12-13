@@ -11,23 +11,16 @@ public class Actor extends Model {
     @Id
     public int id;
     public String name;
-    public int gender;
     public double popularity;
-    public String birthday;
-    public boolean died;
-    @javax.persistence.Column(columnDefinition="varchar(8192)")
-    public String bio;
     public String imagePath;
+    public boolean adult;
 
-    public Actor(int id, String name, int gender, double popularity, String birthday, boolean died, String bio, String imagePath) {
+    public Actor(int id, String name, double popularity, String imagePath, boolean adult) {
         this.id = id;
         this.name = name;
-        this.gender = gender;
         this.popularity = popularity;
-        this.birthday = birthday;
-        this.died = died;
-        this.bio = bio;
         this.imagePath = imagePath;
+        this.adult = adult;
     }
 
     public static Finder<String, Actor> find = new Finder<String, Actor>(
