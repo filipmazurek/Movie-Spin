@@ -22,18 +22,21 @@ public class Application extends Controller {
     public static Result previousRecommendations() {
         return ok(previousRecommendations.render(
                 MovieUser.find.byId(request().username()),
-                new ArrayList<String>(),
-                new ArrayList<String>())
-                );
+                UserFavoriteActor.findInvolving(request().username()),
+                UserFavoriteMovie.findInvolving(request().username())
+                ));
     }
 
     @Security.Authenticated(Secured.class)
-    public static Result actorDetail(String actorId) {
-        return ok(actorDetail.render());
+    public static Result actorDetail(int actorId) {
+        return ok(actorDetail.render(
+                MovieUser.find.byId(request().username()),
+                Actor.find.byId(Integer.toString(actorId))
+        ));
     }
 
     @Security.Authenticated(Secured.class)
-    public static Result movieDetail(String movieId) {
+    public static Result movieDetail(int movieId) {
         return ok(movieDetail.render());
     }
 

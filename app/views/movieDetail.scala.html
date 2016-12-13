@@ -1,10 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
+@(user: MovieUser)(movie: Movie)
 
-</body>
-</html>
+@main(movie.title, user) {
+  <img src="https://image.tmdb.org/t/p/w500@movie.poster_path" alt="Actor Picture" style="width:200px;">
+}
