@@ -30,11 +30,11 @@ public class UserFavoriteActor extends Model {
 
     public static List<UserFavoriteActor> findInvolving(String userEmail) {
         return find.where()
-                .eq("members.email", userEmail)
+                .eq("user.email", userEmail)
                 .findList();
     }
 
-    public static Finder<String, UserFavoriteActor> find = new Finder<>(
+    public static Finder<String, UserFavoriteActor> find = new Finder<String, UserFavoriteActor>(
             String.class, UserFavoriteActor.class
     );
 

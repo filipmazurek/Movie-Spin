@@ -30,7 +30,7 @@ public class UserFavoriteMovie extends Model {
 
     public static List<UserFavoriteMovie> findInvolving(String userEmail) {
         return find.where()
-                .eq("members.email", userEmail)
+                .eq("user.email", userEmail)
                 .findList();
     }
 
