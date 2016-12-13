@@ -1,0 +1,29 @@
+@(heading: String, user: MovieUser)(content: Html)
+
+<!DOCTYPE html>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>MovieSpin</title>
+
+  <meta http-equiv="Content-type" content="text/html;charset=UTF-8"/>
+</head>
+
+<body>
+  <header>
+    <a href="@routes.Application.index" id="logo">Movie Spin</a>
+    <dl id="user">
+      <dt>@user.name</dt>
+      <dd>
+        <a href="@routes.Application.logout()">Logout</a>
+      </dd>
+    </dl>
+  </header>
+
+  <h2 id="heading">@heading</h2>
+  <div id="content">@content</div>
+
+  <hr/>
+</body>
+</html>

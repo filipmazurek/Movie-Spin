@@ -1,0 +1,6 @@
+# Test user
+
+- &filip !!models.MovieUser
+    email:         filip@duke
+    name:          filip
+    password:      secret

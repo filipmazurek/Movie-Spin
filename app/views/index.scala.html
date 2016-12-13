@@ -1,0 +1,6 @@
+@(user: MovieUser)
+
+    @main("Welcome to MovieSpin!", user) {
+        <a href="@routes.Application.previousRecommendations"> <button>See previous recommendations</button></a>
+        <a href="@routes.Application.discoverNew"> <button>Discover new movies</button></a>
+    }
