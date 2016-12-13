@@ -77,7 +77,8 @@ public class Global extends GlobalSettings {
     @Override
     public void onStart(Application app) {
         // TODO: link to TMDB and populate all necessary tables, especially Actors
-        popActors(1);
+        // Comment out after first load for now so that we are not unnecessarily pulling and populating every time
+//        popActors(1);
         /**
          *  loads a single test user so that we may log in to the appliation
          */
