@@ -12,3 +12,4 @@ GET     /previousRecommendations    controllers.Application.previousRecommendati
 GET     /discoverNew                controllers.Application.discoverNew()
 GET     /actorDetail/:actor         controllers.Application.actorDetail(actor:Integer)
 GET     /movieDetail/:movie         controllers.Application.movieDetail(movie:Integer)
+GET     /continueDiscovering        controllers.Application.continueDiscovering(actor:Integer)

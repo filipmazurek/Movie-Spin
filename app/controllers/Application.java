@@ -1,5 +1,6 @@
 package controllers;
 
+import com.typesafe.config.ConfigException;
 import play.mvc.*;
 import play.data.*;
 import static play.data.Form.*;
@@ -8,8 +9,13 @@ import play.mvc.Result;
 import views.html.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Application extends Controller {
+
+    public static int actorsSeen;
+    public static List<Actor> actorsToSee;
+    public static List<Integer> actorsFavored;
 
     @Security.Authenticated(Secured.class)
     public static Result index() {
@@ -18,14 +24,16 @@ public class Application extends Controller {
         ));
     }
 
+
     @Security.Authenticated(Secured.class)
     public static Result previousRecommendations() {
         return ok(previousRecommendations.render(
                 MovieUser.find.byId(request().username()),
                 UserFavoriteActor.findInvolving(request().username()),
                 UserFavoriteMovie.findInvolving(request().username())
-                ));
+        ));
     }
+
 
     @Security.Authenticated(Secured.class)
     public static Result actorDetail(int actorId) {
@@ -35,20 +43,50 @@ public class Application extends Controller {
         ));
     }
 
+
     @Security.Authenticated(Secured.class)
     public static Result movieDetail(int movieId) {
-        return ok(movieDetail.render());
+        return ok(movieDetail.render(
+                MovieUser.find.byId(request().username()),
+                Movie.find.byId(Integer.toString(movieId))
+        ));
     }
+
 
     @Security.Authenticated(Secured.class)
     public static Result discoverNew() {
+        List<Actor> actors = new ArrayList<Actor>();
+        try {
+            actors.add(actorsToSee.get(actorsSeen));
+            actors.add(actorsToSee.get(actorsSeen + 1));
+        }
+        catch (ConfigException.Null e) {
+            // TODO: show end screen. That's all the actors we have.
+        }
+
         return ok(discoverNew.render(
-                MovieUser.find.byId(request().username()
-                ))
-        );
+                MovieUser.find.byId(request().username()),
+                actors
+        ));
     }
 
+
+    @Security.Authenticated(Secured.class)
+    public static Result continueDiscovering(int actorId) {
+        if(actorId > 0) {
+            actorsFavored.add(actorId);
+        }
+        actorsSeen += 2;
+
+        return discoverNew();
+
+    }
+
+
     public static Result login() {
+        actorsSeen = 0;
+        actorsToSee = Actor.find.all();
+        actorsFavored = new ArrayList<Integer>();
         return ok(
                 login.render(form(Login.class))
         );
@@ -60,6 +98,7 @@ public class Application extends Controller {
         );
     }
 
+
     public static Result makeNewUser() {
         Form<NewUser> newUserForm = Form.form(NewUser.class).bindFromRequest();
         if(newUserForm.hasErrors()) {
@@ -70,6 +109,7 @@ public class Application extends Controller {
                 routes.Application.login()
         );
     }
+
 
     public static Result authenticate() {
         Form<Login> loginForm = Form.form(Login.class).bindFromRequest();
@@ -84,6 +124,7 @@ public class Application extends Controller {
         }
     }
 
+
     public static Result logout() {
         session().clear();
         flash("success", "You've been logged out");
@@ -91,6 +132,7 @@ public class Application extends Controller {
                 routes.Application.login()
         );
     }
+
 
     public static class Login {
         public String email;

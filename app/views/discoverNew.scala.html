@@ -1,5 +1,12 @@
-@(user: MovieUser)
+@(user: MovieUser)(actors: List[Actor])
 
 @main("Discover", user) {
-    hello discover new
+    @for(actor <- actors) {
+            <a href="@routes.Application.continueDiscovering(actor.id)">
+                <img src="https://image.tmdb.org/t/p/w500@actor.imagePath" alt="Actor Picture" style="width:150px;">
+            </a>
+
+    }
+
+    <a href="@routes.Application.continueDiscovering(-1)"> Neither! </a>
 }
