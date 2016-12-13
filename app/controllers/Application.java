@@ -7,6 +7,8 @@ import models.*;
 import play.mvc.Result;
 import views.html.*;
 
+import java.util.ArrayList;
+
 public class Application extends Controller {
 
     @Security.Authenticated(Secured.class)
@@ -20,15 +22,19 @@ public class Application extends Controller {
     public static Result previousRecommendations() {
         return ok(previousRecommendations.render(
                 MovieUser.find.byId(request().username()),
-                UserFavoriteActor.findInvolving(request().username()),
-                UserFavoriteMovie.findInvolving(request().username())
-                )
-        );
+                new ArrayList<String>(),
+                new ArrayList<String>())
+                );
     }
 
     @Security.Authenticated(Secured.class)
-    public static Result actorDetail() {
+    public static Result actorDetail(String actorId) {
         return ok(actorDetail.render());
+    }
+
+    @Security.Authenticated(Secured.class)
+    public static Result movieDetail(String movieId) {
+        return ok(movieDetail.render());
     }
 
     @Security.Authenticated(Secured.class)
