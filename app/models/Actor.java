@@ -7,8 +7,8 @@ import com.avaje.ebean.*;
 
 /**
  * @author Robert Steilberg
- *
- * This model represents an actor.
+ *         <p>
+ *         This model represents an actor.
  */
 @Entity
 public class Actor extends Model {
@@ -20,6 +20,15 @@ public class Actor extends Model {
     public String imagePath;
     public boolean adult;
 
+    /**
+     * Creates an actor
+     *
+     * @param id         the actor's database id
+     * @param name       the actor's name
+     * @param popularity the actor's popularity index
+     * @param imagePath  a URI path to an image of the actor
+     * @param adult      true if the actor is involved in adult film, false otherwise
+     */
     public Actor(int id, String name, double popularity, String imagePath, boolean adult) {
         this.id = id;
         this.name = name;

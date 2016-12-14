@@ -4,13 +4,12 @@ import javax.persistence.*;
 
 import play.db.ebean.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author Robert Steilberg
- *
- * This model represents a movie.
+ *         <p>
+ *         This model represents a movie.
  */
 @Entity
 public class Movie extends Model {
@@ -22,7 +21,15 @@ public class Movie extends Model {
     public String poster_path;
     public boolean adult;
 
-
+    /**
+     * Creates an actor
+     *
+     * @param id           the movie's database id
+     * @param title        the actor's title
+     * @param release_date the movie's release date
+     * @param poster_path  a URI path to the poster for the movie
+     * @param adult        true if an adult film, false otherwise
+     */
     public Movie(int id, String title, String release_date, String poster_path, boolean adult) {
         this.id = id;
         this.title = title;
@@ -31,8 +38,11 @@ public class Movie extends Model {
         this.adult = adult;
     }
 
+    /**
+     * @return the movie with the corresponding id
+     */
     public static List<Movie> getMovie(int id) {
-        return find.where().eq("id",id).findList();
+        return find.where().eq("id", id).findList();
     }
 
 
