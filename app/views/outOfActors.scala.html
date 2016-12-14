@@ -1,7 +1,9 @@
 @(user: MovieUser)
 
-@main("Discover", user) {
-    That's all the actors we have right now. Let's see what your movie recommendations are!
-    <br>
-    <a href="@routes.Application.movieResults()">Let's go</a>
-}
+<div class="center">
+    @main("", user) {
+        <h1>That's all the actors we have right now. Let's see what your movie recommendations are!</h1>
+        <br/>
+        <a href="@routes.Application.movieResults()"> <button>Let's go!</button></a>
+    }
+</div>
