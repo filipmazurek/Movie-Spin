@@ -52,8 +52,9 @@ public class Global extends GlobalSettings {
                 newActor.save();
 
                 HttpResponse<String> movies = getActors("https://api.themoviedb.org/3/person/" + Integer.toString(id) + "/movie_credits?api_key=b01a91ca9a2066156c2d07dfc14f6267&language=en-US");
+                JSONObject movieResponse = new JSONObject(movies.getBody());
                 try {
-                    JSONObject movieResponse = new JSONObject(movies.getBody());
+//                    JSONObject movieResponse = new JSONObject(movies.getBody());
                     JSONArray movieArray = movieResponse.getJSONArray("cast");
                     for (int movie = 0; movie < movieArray.length(); movie++) {
                         int movieId = movieArray.getJSONObject(movie).getInt("id");
@@ -66,7 +67,6 @@ public class Global extends GlobalSettings {
 //                        if (!firstRun) {
                         List<Movie> currMovies = Movie.getMovie(movieId);
                         if (currMovies.size() > 0) {
-                            System.out.println("FOUND A CURR MOVIE");
                             newMovie = currMovies.get(0);
                         } else {
                             newMovie = new Movie(movieId, movieTitle, releaseDate, posterPath, isAdult);
@@ -77,40 +77,15 @@ public class Global extends GlobalSettings {
                     }
 
                 } catch (JSONException o) {
+//                    System.out.println(movies.getBody());
                     o.printStackTrace();
                 }
             }
         } catch (JSONException e) {
+//            System.out.println(actors.getBody());
             e.printStackTrace();
         }
     }
-
-//    private void popMovies(int page) {
-//        HttpResponse<String> movies = getActors("https://api.themoviedb.org/3/movie/popular?api_key=b01a91ca9a2066156c2d07dfc14f6267&language=en-US&page=" + Integer.toString(page));
-//        try {
-//            JSONObject movieResponse = new JSONObject(movies.getBody());
-//            JSONArray movieArray = movieResponse.getJSONArray("results");
-//
-//            for (int movie = 0; movie < movieArray.length(); movie++) {
-//                int id = movieArray.getJSONObject(movie).getInt("id");
-//                String title = movieArray.getJSONObject(movie).getString("title");
-//                String overview = movieArray.getJSONObject(movie).getString("overview");
-//                String release_date = movieArray.getJSONObject(movie).getString("release_date");
-//                String language = movieArray.getJSONObject(movie).getString("original_language");
-//                boolean adult = movieArray.getJSONObject(movie).getBoolean("adult");
-//                String poster_path = movieArray.getJSONObject(movie).getString("poster_path");
-//
-//                HttpResponse<String> details = getDetails("https://api.themoviedb.org/3/movie/" + Integer.toString(id) + "?api_key=b01a91ca9a2066156c2d07dfc14f6267&language=en-US");
-//                JSONObject detailResponse = new JSONObject(details.getBody());
-//                int popularity = detailResponse.getInt("popularity");
-//                int runtime = detailResponse.getInt("runtime");
-////                Movie newMovie = new Movie(id, title, overview, release_date, language, adult, poster_path, popularity, runtime);
-////                newMovie.save();
-//            }
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//    }
 
     /**
      * Method which is only called when the application starts up. Here we connect to our data source, TMDB. We will
@@ -120,7 +95,7 @@ public class Global extends GlobalSettings {
      */
     @Override
     public void onStart(Application app) {
-//        pop(1);
+//        pop(7);
         /**
          *  loads a single test user so that we may log in to the application
          */
