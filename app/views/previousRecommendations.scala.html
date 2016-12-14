@@ -4,18 +4,29 @@
     @main("Your Likes", user) {
 
         Click on a Movie below to view more information:
-        <ul>
+        <br/>
+        <br/>
+        <br/>
         @for(movie <- likeMovies) {
-            <li><a href="@routes.Application.movieDetail(movie.movie.id)">@movie.movie.title</a></li>
+            <div id="prev-recs">
+                <img src="https://image.tmdb.org/t/p/w500@movie.movie.poster_path" alt="Movie Picture" style="width: 200px;">
+                <br/>
+                <a href="@routes.Application.movieDetail(movie.movie.id)">@movie.movie.title</a>
+            </div>
         }
-        </ul>
-
+        <br/>
+        <br/>
+        <br/>
         Click on an Actor below to view more information:
-        <ul>
+        <br/>
+        <br/>
+        <br/>
         @for(actor <- likeActors) {
-            @*<img src="https://image.tmdb.org/t/p/w500@actor.image_path" alt="Actor Picture" style="width: 200px;">*@
-            <li><a href="@routes.Application.actorDetail(actor.actor.id)">@actor.actor.name</a></li>
+            <div id="prev-recs">
+                <img src="https://image.tmdb.org/t/p/w500@actor.actor.imagePath" alt="Actor Picture" style="width: 200px;">
+                <br/>
+                <a href="@routes.Application.actorDetail(actor.actor.id)">@actor.actor.name</a>
+            </div>
         }
-        </ul>
     }
 </div>
