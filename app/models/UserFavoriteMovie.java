@@ -6,9 +6,11 @@ import play.db.ebean.*;
 import java.util.List;
 
 /**
+ * The class which represents the users' chosen favorite movies. This is the important and updated information which
+ * allows us to store settings for each unique user.
+ *
  * @author Filip Mazurek
  */
-
 @Entity
 public class UserFavoriteMovie extends Model {
 
@@ -22,12 +24,27 @@ public class UserFavoriteMovie extends Model {
         this.movie = movie;
     }
 
-    public static UserFavoriteMovie create(String userEmail, String movie) {
-        UserFavoriteMovie favoriteMovie = new UserFavoriteMovie(MovieUser.find.ref(userEmail), Movie.find.ref(movie));
+
+    /**
+     * Creation allows for easy creation of a new favorite movie for a user. A new entry is created and saved to the
+     * database
+     *
+     * @param userEmail the user who liked an actor
+     * @param movieId the actor which the user liked
+     * @return a reference to the favorite actor
+     */
+    public static UserFavoriteMovie create(String userEmail, String movieId) {
+        UserFavoriteMovie favoriteMovie = new UserFavoriteMovie(MovieUser.find.ref(userEmail), Movie.find.ref(movieId));
         favoriteMovie.save();
         return favoriteMovie;
     }
 
+
+    /**
+     * Allows quick search to find all the likes that a specific user has
+     * @param userEmail the unique identifier of a specific user
+     * @return list of all the movies which the user favors
+     */
     public static List<UserFavoriteMovie> findInvolving(String userEmail) {
         return find.where()
                 .eq("user.email", userEmail)

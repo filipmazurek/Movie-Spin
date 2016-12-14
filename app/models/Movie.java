@@ -1,10 +1,7 @@
 package models;
 
 import javax.persistence.*;
-
 import play.db.ebean.*;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
