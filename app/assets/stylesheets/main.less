@@ -1,20 +1,37 @@
+@import url('https://fonts.googleapis.com/css?family=Poiret+One');
+
 body {
   background-image: url("/public/images/background.png");
   background-size: cover;
-  //background-repeat: no-repeat;
-  //background-position: center center;
-}
-
-h1 {
+  font-family: 'Poiret One', cursive;
   color: #FFFFFF;
 }
 
-#button {
+a {
+  text-decoration: none;
+  color: #FFFFFF;
+}
+
+a:visited {
+  text-decoration: none;
+  color: #FFFFFF;
+}
+
+h1 {
+  font-size: 55px;
+  color: #FFFFFF;
+}
+
+h2 {
+  font-size: 40px;
+}
+
+button {
   background-image: linear-gradient(#91dd70, #55ae2e);
   margin: 0 auto;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  width: 110px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  width: 207px;
   border: 1px solid #5aad35;
   border-radius: 3px;
   font-weight: bold;
@@ -24,7 +41,7 @@ h1 {
   cursor: pointer;
 }
 
-#button:hover {
+button:hover {
   background-image: linear-gradient(#85d063, #4f992f);
 }
 
@@ -33,5 +50,54 @@ h1 {
 }
 
 input {
-  text-align: center;
+  width: 85%;
+  padding: 22px 20px;
+  font-size: 30px;
+
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+
+  background-color: transparent;
+  color: #fff;
+
+  //text-align: center;
+}
+
+.flash {
+  font-weight: 800;
+  font-size: 25px;
+}
+
+#index-button-left {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  width: 500px;
+  margin-right: 10px;
+}
+
+#index-button-right {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  width: 500px;
+  margin-left: 10px;
+}
+
+#like-button-left {
+  margin-right: 10px;
+}
+
+#like-button-right {
+  margin-left: 10px;
+}
+
+#actor-image {
+  width: 220px;
+  margin: 20px 20px 20px 20px;
+}
+
+#neither {
+  font-size: 30px;
 }

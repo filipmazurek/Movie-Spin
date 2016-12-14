@@ -1,10 +1,14 @@
 @(user: MovieUser)(movie: Movie)
 
-@main(movie.title, user) {
-    <img src="https://image.tmdb.org/t/p/w500@movie.poster_path" alt="Actor Picture" style="width:200px;">
+<div class="center">
+    @main(movie.title, user) {
+        <img src="https://image.tmdb.org/t/p/w500@movie.poster_path" alt="Actor Picture" style="width: 200px;">
+        <br/>
+        <br/>
+        <br/>
+        <a href="@routes.Application.respondToMovie(movie.id)"> <button id="like-button-left">Like</button></a>
 
-    <a href="@routes.Application.respondToMovie(movie.id)"> <button>Like</button></a>
+        <a href="@routes.Application.respondToMovie(-1)"> <button id="like-button-right">Don't Like</button></a>
 
-    <a href="@routes.Application.respondToMovie(-1)"> <button>Don't Like</button></a>
-
-}
+    }
+</div>

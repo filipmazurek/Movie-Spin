@@ -9,7 +9,7 @@
     <body>
         <div class="center">
             @helper.form(routes.Application.authenticate) {
-                <h1>Sign in</h1>
+                <h1>Sign in to MovieSpin</h1>
 
                 <div class="center">
                     <input class="login-field" type="email" name="email" placeholder="Email" value="@form("email").value">
@@ -26,17 +26,17 @@
             }
 
             <a href="@routes.Application.createUser"> <button id="button">New User</button></a>
-        </div>
         @if(flash.contains("success")) {
-            <p class="success">
+            <p class="flash success">
             @flash.get("success")
             </p>
         }
 
         @if(form.hasGlobalErrors) {
-            <p class="error">
+            <p class="flash error">
             @form.globalError.message
             </p>
         }
+        </div>
     </body>
 </html>

@@ -1,13 +1,13 @@
 @(user: MovieUser)(actors: List[Actor])
 
-@main("Discover", user) {
-    Click on the actor who you prefer
-    @for(actor <- actors) {
+<div class="center">
+    @main("Discover new Movies", user) {
+        @for(actor <- actors) {
             <a href="@routes.Application.continueDiscovering(actor.id)">
-                <img src="https://image.tmdb.org/t/p/w500@actor.imagePath" alt="Actor Picture" style="width:150px;">
+                <img id="actor-image" src="https://image.tmdb.org/t/p/w500@actor.imagePath" alt="Actor Picture">
             </a>
-
-
+        }
+        <br/>
+        <a id="neither" href="@routes.Application.continueDiscovering(-1)">Neither!</a>
     }
-    <a href="@routes.Application.continueDiscovering(-1)"> Neither! </a>
-}
+</div>
