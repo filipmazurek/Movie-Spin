@@ -56,13 +56,13 @@ public class Application extends Controller {
     @Security.Authenticated(Secured.class)
     public static Result discoverNew() {
         List<Actor> actors = new ArrayList<Actor>();
-        try {
-            actors.add(actorsToSee.get(actorsSeen));
-            actors.add(actorsToSee.get(actorsSeen + 1));
+
+        if(actorsSeen+1 > actorsToSee.size()) {
+            return outOfActors();
         }
-        catch (ConfigException.Null e) {
-            // TODO: show end screen. That's all the actors we have.
-        }
+
+        actors.add(actorsToSee.get(actorsSeen));
+        actors.add(actorsToSee.get(actorsSeen + 1));
 
         return ok(discoverNew.render(
                 MovieUser.find.byId(request().username()),
@@ -80,6 +80,22 @@ public class Application extends Controller {
 
         return discoverNew();
 
+    }
+
+
+    @Security.Authenticated(Secured.class)
+    public static Result outOfActors() {
+        return ok(outOfActors.render(
+                MovieUser.find.byId(request().username())
+        ));
+    }
+
+
+    @Security.Authenticated(Secured.class)
+    public static Result movieResults() {
+        return ok(movieRecommendations.render(
+                MovieUser.find.byId(request().username())
+        ));
     }
 
 
