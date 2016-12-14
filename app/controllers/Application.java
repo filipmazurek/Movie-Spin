@@ -92,7 +92,7 @@ public class Application extends Controller {
             try {
                 recommendedMovies.add(Movie.find.byId(Integer.toString(castOneActor.get(0).movie.id)));
                 recommendedMovies.add(Movie.find.byId(Integer.toString(castOneActor.get(1).movie.id)));
-            } catch (ArrayIndexOutOfBoundsException e) {
+            } catch (IndexOutOfBoundsException e) {
                 // do nothing, no need
             }
         }
