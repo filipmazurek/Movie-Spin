@@ -13,6 +13,7 @@ server.pid
 /dist/
 .cache
 .DS_Store
+application.conf
 
 # IDEA Ignores #
 ################
