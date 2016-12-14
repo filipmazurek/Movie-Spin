@@ -3,6 +3,7 @@ package models;
 import play.db.ebean.Model;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * @author Robert Steilberg
@@ -20,5 +21,23 @@ public class MovieCast extends Model {
         this.movie = movie;
     }
 
+
+    public static List<MovieCast> findByMovie(int movieId) {
+        return find.where()
+                .eq("movie.id", movieId)
+                .findList();
+    }
+
+
+    public static List<MovieCast> findByActor(int actorId) {
+        return find.where()
+                .eq("actor.id", actorId)
+                .findList();
+    }
+
+
+    public static Finder<String, MovieCast> find = new Finder<String, MovieCast>(
+            String.class, MovieCast.class
+    );
 
 }

@@ -1,8 +1,6 @@
 import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import jdk.nashorn.internal.objects.annotations.Function;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,8 +8,6 @@ import play.*;
 import play.libs.*;
 import com.avaje.ebean.Ebean;
 import models.*;
-
-import java.sql.*;
 import java.util.*;
 
 /**
@@ -124,7 +120,7 @@ public class Global extends GlobalSettings {
      */
     @Override
     public void onStart(Application app) {
-//        pop(2);
+//        pop(1);
         /**
          *  loads a single test user so that we may log in to the appliation
          */

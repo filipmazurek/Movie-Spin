@@ -1,13 +1,11 @@
 package controllers;
 
-import com.typesafe.config.ConfigException;
 import play.mvc.*;
 import play.data.*;
 import static play.data.Form.*;
 import models.*;
 import play.mvc.Result;
 import views.html.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +14,7 @@ public class Application extends Controller {
     public static int actorsSeen;
     public static List<Actor> actorsToSee;
     public static List<Integer> actorsFavored;
+    public static List<Movie> recommendedMovies;
 
     @Security.Authenticated(Secured.class)
     public static Result index() {
@@ -93,9 +92,21 @@ public class Application extends Controller {
 
     @Security.Authenticated(Secured.class)
     public static Result movieResults() {
+        recommendedMovies = new ArrayList<Movie>();
+        // Get two most popular movies per actor chosen
+        for(int actorId : actorsFavored) {
+            List<MovieCast> castOneActor = MovieCast.findByActor(actorId);
+            try {
+                recommendedMovies.add(Movie.find.byId(Integer.toString(castOneActor.get(0).movie.id)));
+                recommendedMovies.add(Movie.find.byId(Integer.toString(castOneActor.get(1).movie.id)));
+            } catch (ArrayIndexOutOfBoundsException e) {
+                // do nothing, no need
+            }
+        }
+
         return ok(movieRecommendations.render(
-                MovieUser.find.byId(request().username())
-// TODO: Some algorithm to decide on the movies that are going to be useful
+                MovieUser.find.byId(request().username()),
+                recommendedMovies
         ));
     }
 
