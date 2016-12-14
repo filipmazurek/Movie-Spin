@@ -1,5 +1,7 @@
 package controllers;
 
+import com.avaje.ebean.Ebean;
+import com.avaje.ebean.SqlUpdate;
 import play.mvc.*;
 import play.data.*;
 import static play.data.Form.*;
@@ -136,8 +138,11 @@ public class Application extends Controller {
     @Security.Authenticated(Secured.class)
     public static Result actorBackToFavorites(int actorId) {
         if(actorId > 0) {
-            UserFavoriteActor.find.where().eq("user.email", request().username())
-                    .eq("actor.id", actorId).findUnique().delete();
+            SqlUpdate takeActorDown = Ebean.createSqlUpdate(
+                    "DELETE FROM user_favorite_actor WHERE user_email = :user_email AND actor_id = :actor_id");
+            takeActorDown.setParameter("user_email", request().username());
+            takeActorDown.setParameter("actor_id", actorId);
+            takeActorDown.execute();
         }
         return previousRecommendations();
     }
@@ -146,8 +151,12 @@ public class Application extends Controller {
     @Security.Authenticated(Secured.class)
     public static Result movieBackToFavorites(int movieId) {
         if(movieId > 0) {
-            UserFavoriteMovie.find.where().eq("user.email", request().username())
-                    .eq("movie.id", movieId).findUnique().delete();        }
+            SqlUpdate takeMovieDown = Ebean.createSqlUpdate(
+                    "DELETE FROM user_favorite_movie WHERE user_email = :user_email AND movie_id = :movie_id");
+            takeMovieDown.setParameter("user_email", request().username());
+            takeMovieDown.setParameter("movie_id", movieId);
+            takeMovieDown.execute();
+        }
         return previousRecommendations();
     }
 
