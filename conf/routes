@@ -15,3 +15,5 @@ GET     /movieDetail/:movie         controllers.Application.movieDetail(movie:In
 GET     /continueDiscovering        controllers.Application.continueDiscovering(actor:Integer)
 GET     /outOfActors                controllers.Application.outOfActors()
 GET     /movieResults               controllers.Application.movieResults()
+GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET     /public/*file               controllers.Assets.at(path="/public", file)
