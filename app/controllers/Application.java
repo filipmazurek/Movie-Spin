@@ -73,6 +73,7 @@ public class Application extends Controller {
     @Security.Authenticated(Secured.class)
     public static Result continueDiscovering(int actorId) {
         if(actorId > 0) {
+            UserFavoriteActor.create(request().username(), Integer.toString(actorId));
             actorsFavored.add(actorId);
         }
         actorsSeen += 2;
@@ -84,14 +85,6 @@ public class Application extends Controller {
 
     @Security.Authenticated(Secured.class)
     public static Result outOfActors() {
-        return ok(outOfActors.render(
-                MovieUser.find.byId(request().username())
-        ));
-    }
-
-
-    @Security.Authenticated(Secured.class)
-    public static Result movieResults() {
         recommendedMovies = new ArrayList<Movie>();
         // Get two most popular movies per actor chosen
         for(int actorId : actorsFavored) {
@@ -104,10 +97,58 @@ public class Application extends Controller {
             }
         }
 
+        return ok(outOfActors.render(
+                MovieUser.find.byId(request().username())
+        ));
+    }
+
+
+    @Security.Authenticated(Secured.class)
+    public static Result movieResults() {
+
         return ok(movieRecommendations.render(
                 MovieUser.find.byId(request().username()),
                 recommendedMovies
         ));
+    }
+
+
+    @Security.Authenticated(Secured.class)
+    public static Result respondToMovie(int movieId) {
+        if(movieId > 0) {
+            UserFavoriteMovie.create(request().username(), Integer.toString(movieId));
+        }
+
+        return movieResults();
+    }
+
+
+    @Security.Authenticated(Secured.class)
+    public static Result movieChoice(int movieId) {
+        return ok(movieChoice.render(
+                MovieUser.find.byId(request().username()),
+                Movie.find.byId(Integer.toString(movieId))
+                )
+        );
+    }
+
+
+    @Security.Authenticated(Secured.class)
+    public static Result actorBackToFavorites(int actorId) {
+        if(actorId > 0) {
+            UserFavoriteActor.find.where().eq("user.email", request().username())
+                    .eq("actor.id", actorId).findUnique().delete();
+        }
+        return previousRecommendations();
+    }
+
+
+    @Security.Authenticated(Secured.class)
+    public static Result movieBackToFavorites(int movieId) {
+        if(movieId > 0) {
+            UserFavoriteMovie.find.where().eq("user.email", request().username())
+                    .eq("movie.id", movieId).findUnique().delete();        }
+        return previousRecommendations();
     }
 
 

@@ -2,4 +2,7 @@
 
 @main(actor.name, user) {
     <img src="https://image.tmdb.org/t/p/w500@actor.imagePath" alt="Actor Picture" style="width:300px;">
+
+    <a href="@routes.Application.actorBackToFavorites(actor.id)"> <button>Delete Actor</button></a>
+    <a href="@routes.Application.actorBackToFavorites(-1)"> <button>Back</button></a>
 }

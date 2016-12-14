@@ -1,11 +1,10 @@
 @(user: MovieUser)(movies: List[Movie])
 
 @main("Movies You Might Like", user) {
-    Here's a list of movies that you might like
-
+    Click on the movies you might enjoy, and they will be added to your favorites.
     @for(movie <- movies) {
-        <img src="https://image.tmdb.org/t/p/w500@movie.poster_path" alt="Actor Picture" style="width:200px;">
+       <a href="@routes.Application.movieChoice(movie.id)">
+           <img src="https://image.tmdb.org/t/p/w500@movie.poster_path" alt="Actor Picture" style="width:200px;">
+       </a>
     }
-
-
 }
