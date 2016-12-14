@@ -25,18 +25,18 @@
                 <br/>
             }
 
-            <a href="@routes.Application.createUser"> <button id="button">New User</button></a>
-        @if(flash.contains("success")) {
-            <p class="flash success">
-            @flash.get("success")
-            </p>
-        }
+        <a href="@routes.Application.createUser"> <button id="button">New User</button></a>
+            @if(flash.contains("success")) {
+                <p class="flash success">
+                @flash.get("success")
+                </p>
+            }
 
-        @if(form.hasGlobalErrors) {
-            <p class="flash error">
-            @form.globalError.message
-            </p>
-        }
+            @if(form.hasGlobalErrors) {
+                <p class="flash error">
+                @form.globalError.message
+                </p>
+            }
         </div>
     </body>
 </html>

@@ -7,6 +7,8 @@ import java.util.List;
 
 /**
  * @author Robert Steilberg
+ *
+ * This model represents actors and the movies that they are cast in.
  */
 @Entity
 public class MovieCast extends Model {

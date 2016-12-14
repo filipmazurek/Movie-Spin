@@ -1,13 +1,14 @@
 package models;
 
 import javax.persistence.*;
+
 import play.db.ebean.*;
+
 import java.util.List;
 
 /**
  * @author Filip Mazurek
  */
-
 @Entity
 public class UserFavoriteActor extends Model {
 

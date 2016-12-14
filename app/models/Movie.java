@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Filip Mazurek
+ * @author Robert Steilberg
+ *
+ * This model represents a movie.
  */
 @Entity
 public class Movie extends Model {

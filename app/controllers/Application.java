@@ -6,10 +6,13 @@ import com.avaje.ebean.SqlRow;
 import com.avaje.ebean.SqlUpdate;
 import play.mvc.*;
 import play.data.*;
+
 import static play.data.Form.*;
+
 import models.*;
 import play.mvc.Result;
 import views.html.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,11 +66,11 @@ public class Application extends Controller {
 
         List<Actor> actors = new ArrayList<Actor>();
 
-        if(actorsSeen+1 > actorsToSee.size()){
+        if (actorsSeen + 1 > actorsToSee.size()) {
             actorsSeen = 0;
         }
 
-        if(pagesThisSession >= discoverPagesPerSession) {
+        if (pagesThisSession >= discoverPagesPerSession) {
             return outOfActors();
         }
 
@@ -86,7 +89,7 @@ public class Application extends Controller {
 
         pagesThisSession++;
 
-        if(actorId > 0) {
+        if (actorId > 0) {
             UserFavoriteActor.create(request().username(), Integer.toString(actorId));
             actorsFavored.add(actorId);
         }
@@ -102,7 +105,7 @@ public class Application extends Controller {
         pagesThisSession = 0;
         recommendedMovies = new ArrayList<Movie>();
         // Get two most popular movies per actor chosen
-        for(int actorId : actorsFavored) {
+        for (int actorId : actorsFavored) {
             List<MovieCast> castOneActor = MovieCast.findByActor(actorId);
             try {
                 recommendedMovies.add(Movie.find.byId(Integer.toString(castOneActor.get(0).movie.id)));
@@ -130,7 +133,7 @@ public class Application extends Controller {
 
     @Security.Authenticated(Secured.class)
     public static Result respondToMovie(int movieId) {
-        if(movieId > 0) {
+        if (movieId > 0) {
             UserFavoriteMovie.create(request().username(), Integer.toString(movieId));
         }
 
@@ -150,7 +153,7 @@ public class Application extends Controller {
 
     @Security.Authenticated(Secured.class)
     public static Result actorBackToFavorites(int actorId) {
-        if(actorId > 0) {
+        if (actorId > 0) {
             SqlUpdate takeActorDown = Ebean.createSqlUpdate(
                     "DELETE FROM user_favorite_actor WHERE user_email = :user_email AND actor_id = :actor_id");
             takeActorDown.setParameter("user_email", request().username());
@@ -163,7 +166,7 @@ public class Application extends Controller {
 
     @Security.Authenticated(Secured.class)
     public static Result movieBackToFavorites(int movieId) {
-        if(movieId > 0) {
+        if (movieId > 0) {
             SqlUpdate takeMovieDown = Ebean.createSqlUpdate(
                     "DELETE FROM user_favorite_movie WHERE user_email = :user_email AND movie_id = :movie_id");
             takeMovieDown.setParameter("user_email", request().username());
@@ -191,7 +194,7 @@ public class Application extends Controller {
 
     public static Result makeNewUser() {
         Form<NewUser> newUserForm = Form.form(NewUser.class).bindFromRequest();
-        if(newUserForm.hasErrors()) {
+        if (newUserForm.hasErrors()) {
             return badRequest(createUser.render(newUserForm));
         }
         flash("success", "New user created");
@@ -216,9 +219,9 @@ public class Application extends Controller {
             SqlQuery randomActors = Ebean.createSqlQuery(
                     "SELECT id FROM actor ORDER BY RANDOM() LIMIT 50");
 
-            List<SqlRow> rawRows =  randomActors.findList();
+            List<SqlRow> rawRows = randomActors.findList();
 
-            for(SqlRow oneRow :rawRows) {
+            for (SqlRow oneRow : rawRows) {
                 actorsToSee.add(Actor.find.byId(Integer.toString(oneRow.getInteger("id"))));
             }
 
@@ -262,7 +265,7 @@ public class Application extends Controller {
         public String password;
 
         public String validate() {
-            if((email.length() < 1) || (name.length() < 1) || (password.length() < 1)) {
+            if ((email.length() < 1) || (name.length() < 1) || (password.length() < 1)) {
                 return "Please fill all fields";
             }
             if (MovieUser.find.byId(email) != null) {

@@ -33,6 +33,12 @@ public class Global extends GlobalSettings {
         return null;
     }
 
+    /**
+     * Automatically populates the database with a single page of actors and the movies that
+     * they have acted in
+     *
+     * @param page the page number of actors to get from The Movie Database
+     */
     private void populateDatabase(int page) {
         HttpResponse<String> actors = getActors("https://api.themoviedb.org/3/person/popular?page=" + Integer.toString(page) + "&language=en-US&api_key=b01a91ca9a2066156c2d07dfc14f6267");
         try {
@@ -83,8 +89,6 @@ public class Global extends GlobalSettings {
     /**
      * Method which is only called when the application starts up. Here we connect to our data source, TMDB. We will
      * ensure that the tables with all movie information are populated with the most updated movie and actor data.
-     *
-     * @param app ok
      */
     @Override
     public void onStart(Application app) {

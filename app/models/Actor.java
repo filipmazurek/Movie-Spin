@@ -5,6 +5,11 @@ import javax.persistence.*;
 import play.db.ebean.*;
 import com.avaje.ebean.*;
 
+/**
+ * @author Robert Steilberg
+ *
+ * This model represents an actor.
+ */
 @Entity
 public class Actor extends Model {
 
