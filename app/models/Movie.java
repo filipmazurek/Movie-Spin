@@ -1,9 +1,7 @@
 package models;
 
 import javax.persistence.*;
-
 import play.db.ebean.*;
-
 import java.util.List;
 
 /**
