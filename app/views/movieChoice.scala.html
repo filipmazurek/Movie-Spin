@@ -1,0 +1,10 @@
+@(user: MovieUser)(movie: Movie)
+
+@main(movie.title, user) {
+    <img src="https://image.tmdb.org/t/p/w500@movie.poster_path" alt="Actor Picture" style="width:200px;">
+
+    <a href="@routes.Application.respondToMovie(movie.id)"> <button>Like</button></a>
+
+    <a href="@routes.Application.respondToMovie(-1)"> <button>Don't Like</button></a>
+
+}

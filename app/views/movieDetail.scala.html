@@ -1,5 +1,8 @@
 @(user: MovieUser)(movie: Movie)
 
 @main(movie.title, user) {
-  <img src="https://image.tmdb.org/t/p/w500@movie.poster_path" alt="Actor Picture" style="width:200px;">
+    <img src="https://image.tmdb.org/t/p/w500@movie.poster_path" alt="Actor Picture" style="width:200px;">
+
+    <a href="@routes.Application.movieBackToFavorites(movie.id)"> <button>Delete Movie</button></a>
+    <a href="@routes.Application.movieBackToFavorites(-1)"> <button>Back</button></a>
 }
