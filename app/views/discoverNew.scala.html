@@ -3,9 +3,13 @@
 <div class="center">
     @main("Discover new Movies", user) {
         @for(actor <- actors) {
-            <a href="@routes.Application.continueDiscovering(actor.id)">
-                <img id="actor-image" src="https://image.tmdb.org/t/p/w500@actor.imagePath" alt="Actor Picture">
-            </a>
+            <div id="inline-image">
+                <a href="@routes.Application.continueDiscovering(actor.id)">
+                    <img id="actor-image" src="https://image.tmdb.org/t/p/w500@actor.imagePath" alt="Actor Picture">
+                </a>
+                <br/>
+                <a href="@routes.Application.actorDetail(actor.id)">@actor.name</a>
+            </div>
         }
         <br/>
         <a id="neither" href="@routes.Application.continueDiscovering(-1)">Neither!</a>

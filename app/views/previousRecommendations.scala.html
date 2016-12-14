@@ -8,10 +8,12 @@
         <br/>
         <br/>
         @for(movie <- likeMovies) {
-            <div id="prev-recs">
-                <img src="https://image.tmdb.org/t/p/w500@movie.movie.poster_path" alt="Movie Picture" style="width: 200px;">
+            <div id="inline-image">
+                <a href="@routes.Application.movieDetail(movie.movie.id)">
+                    <img src="https://image.tmdb.org/t/p/w500@movie.movie.poster_path" alt="Movie Picture" style="width: 200px;">
+                </a>
                 <br/>
-                <a href="@routes.Application.movieDetail(movie.movie.id)">@movie.movie.title</a>
+                <br/>
             </div>
         }
         <br/>
@@ -22,8 +24,10 @@
         <br/>
         <br/>
         @for(actor <- likeActors) {
-            <div id="prev-recs">
-                <img src="https://image.tmdb.org/t/p/w500@actor.actor.imagePath" alt="Actor Picture" style="width: 200px;">
+            <div id="inline-image">
+                <a href="@routes.Application.actorDetail(actor.actor.id)">
+                    <img src="https://image.tmdb.org/t/p/w500@actor.actor.imagePath" alt="Actor Picture" style="width: 200px;">
+                </a>
                 <br/>
                 <a href="@routes.Application.actorDetail(actor.actor.id)">@actor.actor.name</a>
             </div>
