@@ -1,5 +1,6 @@
 package controllers;
 
+import com.typesafe.config.ConfigException;
 import play.mvc.*;
 import play.data.*;
 import static play.data.Form.*;
@@ -8,8 +9,13 @@ import play.mvc.Result;
 import views.html.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Application extends Controller {
+
+    public static int actorsSeen;
+    public static List<Actor> actorsToSee;
+    public static List<Integer> actorsFavored;
 
     @Security.Authenticated(Secured.class)
     public static Result index() {
@@ -18,34 +24,86 @@ public class Application extends Controller {
         ));
     }
 
+
     @Security.Authenticated(Secured.class)
     public static Result previousRecommendations() {
         return ok(previousRecommendations.render(
                 MovieUser.find.byId(request().username()),
-                new ArrayList<String>(),
-                new ArrayList<String>())
-                );
+                UserFavoriteActor.findInvolving(request().username()),
+                UserFavoriteMovie.findInvolving(request().username())
+        ));
     }
 
-    @Security.Authenticated(Secured.class)
-    public static Result actorDetail(String actorId) {
-        return ok(actorDetail.render());
-    }
 
     @Security.Authenticated(Secured.class)
-    public static Result movieDetail(String movieId) {
-        return ok(movieDetail.render());
+    public static Result actorDetail(int actorId) {
+        return ok(actorDetail.render(
+                MovieUser.find.byId(request().username()),
+                Actor.find.byId(Integer.toString(actorId))
+        ));
     }
+
+
+    @Security.Authenticated(Secured.class)
+    public static Result movieDetail(int movieId) {
+        return ok(movieDetail.render(
+                MovieUser.find.byId(request().username()),
+                Movie.find.byId(Integer.toString(movieId))
+        ));
+    }
+
 
     @Security.Authenticated(Secured.class)
     public static Result discoverNew() {
+        List<Actor> actors = new ArrayList<Actor>();
+
+        if(actorsSeen+1 > actorsToSee.size()) {
+            return outOfActors();
+        }
+
+        actors.add(actorsToSee.get(actorsSeen));
+        actors.add(actorsToSee.get(actorsSeen + 1));
+
         return ok(discoverNew.render(
-                MovieUser.find.byId(request().username()
-                ))
-        );
+                MovieUser.find.byId(request().username()),
+                actors
+        ));
     }
 
+
+    @Security.Authenticated(Secured.class)
+    public static Result continueDiscovering(int actorId) {
+        if(actorId > 0) {
+            actorsFavored.add(actorId);
+        }
+        actorsSeen += 2;
+
+        return discoverNew();
+
+    }
+
+
+    @Security.Authenticated(Secured.class)
+    public static Result outOfActors() {
+        return ok(outOfActors.render(
+                MovieUser.find.byId(request().username())
+        ));
+    }
+
+
+    @Security.Authenticated(Secured.class)
+    public static Result movieResults() {
+        return ok(movieRecommendations.render(
+                MovieUser.find.byId(request().username())
+// TODO: Some algorithm to decide on the movies that are going to be useful
+        ));
+    }
+
+
     public static Result login() {
+        actorsSeen = 0;
+        actorsToSee = Actor.find.all();
+        actorsFavored = new ArrayList<Integer>();
         return ok(
                 login.render(form(Login.class))
         );
@@ -57,6 +115,7 @@ public class Application extends Controller {
         );
     }
 
+
     public static Result makeNewUser() {
         Form<NewUser> newUserForm = Form.form(NewUser.class).bindFromRequest();
         if(newUserForm.hasErrors()) {
@@ -67,6 +126,7 @@ public class Application extends Controller {
                 routes.Application.login()
         );
     }
+
 
     public static Result authenticate() {
         Form<Login> loginForm = Form.form(Login.class).bindFromRequest();
@@ -81,6 +141,7 @@ public class Application extends Controller {
         }
     }
 
+
     public static Result logout() {
         session().clear();
         flash("success", "You've been logged out");
@@ -88,6 +149,7 @@ public class Application extends Controller {
                 routes.Application.login()
         );
     }
+
 
     public static class Login {
         public String email;

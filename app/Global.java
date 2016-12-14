@@ -124,7 +124,6 @@ public class Global extends GlobalSettings {
      */
     @Override
     public void onStart(Application app) {
-        // TODO: link to TMDB and populate all necessary tables, especially Actors
 //        pop(2);
         /**
          *  loads a single test user so that we may log in to the appliation
