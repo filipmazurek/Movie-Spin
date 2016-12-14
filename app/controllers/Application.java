@@ -95,6 +95,7 @@ public class Application extends Controller {
     public static Result movieResults() {
         return ok(movieRecommendations.render(
                 MovieUser.find.byId(request().username())
+// TODO: Some algorithm to decide on the movies that are going to be useful
         ));
     }
 
