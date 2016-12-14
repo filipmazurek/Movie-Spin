@@ -5,28 +5,25 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import play.*;
-import play.libs.*;
-import com.avaje.ebean.Ebean;
 import models.*;
+
 import java.util.*;
 
 /**
  * Global settings class for the Play application
  *
- * @author Filip Mazurek
+ * @author Filip Mazurek, Robert Steilberg
  */
 public class Global extends GlobalSettings {
 
-    private HttpResponse<String> getDetails(String url) {
-        try {
-            return Unirest.get(url).asString();
-        } catch (UnirestException e) {
-            e.printStackTrace();
-        }
-        return null;
 
-    }
-
+    /**
+     * Gets every actor JSON object from an API URL and stores them as
+     * Strings in an HttpResponse
+     *
+     * @param url the API URL
+     * @return the response
+     */
     private HttpResponse<String> getActors(String url) {
         try {
             return Unirest.get(url).asString();
@@ -36,7 +33,7 @@ public class Global extends GlobalSettings {
         return null;
     }
 
-    private void pop(int page) {
+    private void populateDatabase(int page) {
         HttpResponse<String> actors = getActors("https://api.themoviedb.org/3/person/popular?page=" + Integer.toString(page) + "&language=en-US&api_key=b01a91ca9a2066156c2d07dfc14f6267");
         try {
             JSONObject actorResponse = new JSONObject(actors.getBody());
@@ -54,7 +51,6 @@ public class Global extends GlobalSettings {
                 HttpResponse<String> movies = getActors("https://api.themoviedb.org/3/person/" + Integer.toString(id) + "/movie_credits?api_key=b01a91ca9a2066156c2d07dfc14f6267&language=en-US");
                 JSONObject movieResponse = new JSONObject(movies.getBody());
                 try {
-//                    JSONObject movieResponse = new JSONObject(movies.getBody());
                     JSONArray movieArray = movieResponse.getJSONArray("cast");
                     for (int movie = 0; movie < movieArray.length(); movie++) {
                         int movieId = movieArray.getJSONObject(movie).getInt("id");
@@ -62,9 +58,7 @@ public class Global extends GlobalSettings {
                         String releaseDate = movieArray.getJSONObject(movie).getString("release_date");
                         String posterPath = movieArray.getJSONObject(movie).getString("poster_path");
                         boolean isAdult = movieArray.getJSONObject(movie).getBoolean("adult");
-
                         Movie newMovie;
-//                        if (!firstRun) {
                         List<Movie> currMovies = Movie.getMovie(movieId);
                         if (currMovies.size() > 0) {
                             newMovie = currMovies.get(0);
@@ -75,7 +69,6 @@ public class Global extends GlobalSettings {
                         MovieCast newCast = new MovieCast(newActor, newMovie);
                         newCast.save();
                     }
-
                 } catch (JSONException o) {
 //                    System.out.println(movies.getBody());
                     o.printStackTrace();
@@ -95,13 +88,6 @@ public class Global extends GlobalSettings {
      */
     @Override
     public void onStart(Application app) {
-//        pop(7);
-        /**
-         *  loads a single test user so that we may log in to the application
-         */
-        if (MovieUser.find.findRowCount() == 0) {
-            Ebean.save((List) Yaml.load("test-user.yml"));
-        }
+//        populateDatabase(1);
     }
-
 }
