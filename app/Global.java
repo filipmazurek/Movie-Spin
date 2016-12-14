@@ -34,6 +34,41 @@ public class Global extends GlobalSettings {
     }
 
     /**
+     * Gets the movies that a given actor has acted in
+     *
+     * @param newActor the actor for which movies are found
+     */
+    private void getMovies(Actor newActor) {
+        HttpResponse<String> movies = getActors("https://api.themoviedb.org/3/person/" + Integer.toString(newActor.id) + "/movie_credits?api_key=b01a91ca9a2066156c2d07dfc14f6267&language=en-US");
+        JSONObject movieResponse = new JSONObject(movies.getBody());
+        // for every actor, get the movies they are cast in
+        try {
+            JSONArray movieArray = movieResponse.getJSONArray("cast");
+            // store every movie in the database and create a pairing with the actor
+            for (int movie = 0; movie < movieArray.length(); movie++) {
+                int movieId = movieArray.getJSONObject(movie).getInt("id");
+                String movieTitle = movieArray.getJSONObject(movie).getString("title");
+                String releaseDate = movieArray.getJSONObject(movie).getString("release_date");
+                String posterPath = movieArray.getJSONObject(movie).getString("poster_path");
+                boolean isAdult = movieArray.getJSONObject(movie).getBoolean("adult");
+                Movie newMovie;
+                List<Movie> currMovies = Movie.getMovie(movieId);
+                if (currMovies.size() > 0) {
+                    newMovie = currMovies.get(0);
+                } else {
+                    newMovie = new Movie(movieId, movieTitle, releaseDate, posterPath, isAdult);
+                    newMovie.save();
+                }
+                MovieCast newCast = new MovieCast(newActor, newMovie);
+                newCast.save();
+            }
+        } catch (JSONException o) {
+            // System.out.println(movies.getBody());
+            // null param, don't store
+        }
+    }
+
+    /**
      * Automatically populates the database with a single page of actors and the movies that
      * they have acted in
      *
@@ -50,39 +85,13 @@ public class Global extends GlobalSettings {
                 double pop = actorArray.getJSONObject(actor).getDouble("popularity");
                 String path = actorArray.getJSONObject(actor).getString("profile_path");
                 boolean adult = actorArray.getJSONObject(actor).getBoolean("adult");
-
                 Actor newActor = new Actor(id, name, pop, path, adult);
                 newActor.save();
-
-                HttpResponse<String> movies = getActors("https://api.themoviedb.org/3/person/" + Integer.toString(id) + "/movie_credits?api_key=b01a91ca9a2066156c2d07dfc14f6267&language=en-US");
-                JSONObject movieResponse = new JSONObject(movies.getBody());
-                try {
-                    JSONArray movieArray = movieResponse.getJSONArray("cast");
-                    for (int movie = 0; movie < movieArray.length(); movie++) {
-                        int movieId = movieArray.getJSONObject(movie).getInt("id");
-                        String movieTitle = movieArray.getJSONObject(movie).getString("title");
-                        String releaseDate = movieArray.getJSONObject(movie).getString("release_date");
-                        String posterPath = movieArray.getJSONObject(movie).getString("poster_path");
-                        boolean isAdult = movieArray.getJSONObject(movie).getBoolean("adult");
-                        Movie newMovie;
-                        List<Movie> currMovies = Movie.getMovie(movieId);
-                        if (currMovies.size() > 0) {
-                            newMovie = currMovies.get(0);
-                        } else {
-                            newMovie = new Movie(movieId, movieTitle, releaseDate, posterPath, isAdult);
-                            newMovie.save();
-                        }
-                        MovieCast newCast = new MovieCast(newActor, newMovie);
-                        newCast.save();
-                    }
-                } catch (JSONException o) {
-//                    System.out.println(movies.getBody());
-                    o.printStackTrace();
-                }
+                getMovies(newActor);
             }
-        } catch (JSONException e) {
-//            System.out.println(actors.getBody());
-            e.printStackTrace();
+        } catch (JSONException e) { // triggered if there is a null param
+            // System.out.println(actors.getBody());
+            // null param, don't store
         }
     }
 
