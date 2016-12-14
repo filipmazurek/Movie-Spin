@@ -5,7 +5,7 @@
         <h3>Click on the movies you might enjoy, and they will be added to your favorites.</h3>
         @for(movie <- movies) {
             <a href="@routes.Application.movieChoice(movie.id)">
-                <img src="https://image.tmdb.org/t/p/w500@movie.poster_path" alt="Actor Picture" style="width: 200px;">
+                <img src="https://image.tmdb.org/t/p/w500@movie.poster_path" alt="Movie Picture" style="width: 200px;">
             </a>
         }
     }
