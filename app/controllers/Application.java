@@ -13,10 +13,12 @@ import java.util.List;
 
 public class Application extends Controller {
 
-    public static int actorsSeen;
-    public static List<Actor> actorsToSee;
-    public static List<Integer> actorsFavored;
-    public static List<Movie> recommendedMovies;
+    private static int actorsSeen;
+    private static List<Actor> actorsToSee;
+    private static List<Integer> actorsFavored;
+    private static List<Movie> recommendedMovies;
+    private static int pagesThisSession;
+    private static final int discoverPagesPerSession = 7;
 
     @Security.Authenticated(Secured.class)
     public static Result index() {
@@ -56,9 +58,14 @@ public class Application extends Controller {
 
     @Security.Authenticated(Secured.class)
     public static Result discoverNew() {
+
         List<Actor> actors = new ArrayList<Actor>();
 
-        if(actorsSeen+1 > actorsToSee.size()) {
+        if(actorsSeen+1 > actorsToSee.size()){
+            actorsSeen = 0;
+        }
+
+        if(pagesThisSession >= discoverPagesPerSession) {
             return outOfActors();
         }
 
@@ -74,6 +81,9 @@ public class Application extends Controller {
 
     @Security.Authenticated(Secured.class)
     public static Result continueDiscovering(int actorId) {
+
+        pagesThisSession++;
+
         if(actorId > 0) {
             UserFavoriteActor.create(request().username(), Integer.toString(actorId));
             actorsFavored.add(actorId);
@@ -87,6 +97,7 @@ public class Application extends Controller {
 
     @Security.Authenticated(Secured.class)
     public static Result outOfActors() {
+        pagesThisSession = 0;
         recommendedMovies = new ArrayList<Movie>();
         // Get two most popular movies per actor chosen
         for(int actorId : actorsFavored) {
@@ -163,6 +174,7 @@ public class Application extends Controller {
 
     public static Result login() {
         actorsSeen = 0;
+        pagesThisSession = 0;
         actorsToSee = Actor.find.all();
         actorsFavored = new ArrayList<Integer>();
         return ok(
