@@ -15,6 +15,8 @@ GET     /movieDetail/:movie         controllers.Application.movieDetail(movie:In
 GET     /continueDiscovering        controllers.Application.continueDiscovering(actor:Integer)
 GET     /outOfActors                controllers.Application.outOfActors()
 GET     /movieResults               controllers.Application.movieResults()
+GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET     /public/*file               controllers.Assets.at(path="/public", file)
 GET     /respondToMovie             controllers.Application.respondToMovie(movieId:Integer)
 GET     /movieChoice                controllers.Application.movieChoice(movieId:Integer)
 GET     /removeActor                controllers.Application.actorBackToFavorites(actorId:Integer)

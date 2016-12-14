@@ -122,7 +122,7 @@ public class Global extends GlobalSettings {
     public void onStart(Application app) {
 //        pop(1);
         /**
-         *  loads a single test user so that we may log in to the appliation
+         *  loads a single test user so that we may log in to the application
          */
         if (MovieUser.find.findRowCount() == 0) {
             Ebean.save((List) Yaml.load("test-user.yml"));

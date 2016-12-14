@@ -3,27 +3,32 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Login For MovieSpin</title>
+        <title>Login to MovieSpin</title>
+        <link rel="stylesheet" href="@routes.Assets.at("stylesheets/main.css")">
     </head>
     <body>
-        <a href="@routes.Application.index">Home Page</a>
+        <div class="center">
+            <a href="@routes.Application.index">Home Page</a>
 
-        @helper.form(routes.Application.authenticate) {
-            <h1>Sign in</h1>
+            @helper.form(routes.Application.authenticate) {
+                <h1>Sign in</h1>
 
-            <p>
-                <input type="email" name="email" placeholder="Email" value="@form("email").value">
-            </p>
-            <p>
-                <input type="password" name="password" placeholder="Password">
-            </p>
-            <p>
-                <button type="submit">Login</button>
-            </p>
-        }
+                <div class="center">
+                    <input class="login-field" type="email" name="email" placeholder="Email" value="@form("email").value">
+                </div>
+                <br/>
+                <div class="center">
+                    <input class="login-field" type="password" name="password" placeholder="Password">
+                </div>
+                <br/>
+                <div class="center">
+                    <button id="button" type="submit">Login</button>
+                </div>
+                <br/>
+            }
 
-        <a href="@routes.Application.createUser"> <button>New User</button></a>
-
+            <a href="@routes.Application.createUser"> <button id="button">New User</button></a>
+        </div>
         @if(flash.contains("success")) {
             <p class="success">
             @flash.get("success")
