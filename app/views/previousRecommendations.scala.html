@@ -1,5 +1,6 @@
 @(user: MovieUser)(likeActors: List[UserFavoriteActor])(likeMovies: List[UserFavoriteMovie])
 
+<div class="center">
     @main("Your Likes", user) {
 
         Click on a Movie below to view more information:
@@ -12,7 +13,9 @@
         Click on an Actor below to view more information:
         <ul>
         @for(actor <- likeActors) {
+            @*<img src="https://image.tmdb.org/t/p/w500@actor.image_path" alt="Actor Picture" style="width: 200px;">*@
             <li><a href="@routes.Application.actorDetail(actor.actor.id)">@actor.actor.name</a></li>
         }
         </ul>
     }
+</div>

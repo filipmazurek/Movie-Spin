@@ -4,11 +4,9 @@
     @main(movie.title, user) {
         <img src="https://image.tmdb.org/t/p/w500@movie.poster_path" alt="Actor Picture" style="width: 200px;">
         <br/>
-        <br/>
+        <p>Release date: @movie.release_date</p>
         <br/>
         <a href="@routes.Application.respondToMovie(movie.id)"> <button id="like-button-left">Like</button></a>
-
         <a href="@routes.Application.respondToMovie(-1)"> <button id="like-button-right">Don't Like</button></a>
-
     }
 </div>

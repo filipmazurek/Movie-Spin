@@ -1,8 +1,12 @@
 @(user: MovieUser)(actor: Actor)
 
-@main(actor.name, user) {
-    <img src="https://image.tmdb.org/t/p/w500@actor.imagePath" alt="Actor Picture" style="width:300px;">
-
-    <a href="@routes.Application.actorBackToFavorites(actor.id)"> <button>Delete Actor</button></a>
-    <a href="@routes.Application.actorBackToFavorites(-1)"> <button>Back</button></a>
-}
+<div class="center">
+    @main(actor.name, user) {
+        <img id="actor-profile-image" src="https://image.tmdb.org/t/p/w500@actor.imagePath" alt="Actor Picture">
+        <br/>
+        <p>Popularity rating: @actor.popularity</p>
+        <br/>
+        <a href="@routes.Application.actorBackToFavorites(actor.id)"> <button id="like-button-left">Delete Actor</button></a>
+        <a href="@routes.Application.actorBackToFavorites(-1)"> <button id="like-button-right">Back</button></a>
+    }
+</div>
