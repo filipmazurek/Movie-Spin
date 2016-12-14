@@ -1,6 +1,8 @@
 package controllers;
 
 import com.avaje.ebean.Ebean;
+import com.avaje.ebean.SqlQuery;
+import com.avaje.ebean.SqlRow;
 import com.avaje.ebean.SqlUpdate;
 import play.mvc.*;
 import play.data.*;
@@ -173,10 +175,8 @@ public class Application extends Controller {
 
 
     public static Result login() {
-        actorsSeen = 0;
-        pagesThisSession = 0;
-        actorsToSee = Actor.find.all();
-        actorsFavored = new ArrayList<Integer>();
+
+
         return ok(
                 login.render(form(Login.class))
         );
@@ -206,6 +206,25 @@ public class Application extends Controller {
         if (loginForm.hasErrors()) {
             return badRequest(login.render(loginForm));
         } else {
+
+            // get the list of actors to display during this session from our database, randomly
+            actorsSeen = 0;
+            pagesThisSession = 0;
+
+            actorsToSee = new ArrayList<Actor>();
+
+            SqlQuery randomActors = Ebean.createSqlQuery(
+                    "SELECT id FROM actor ORDER BY RANDOM() LIMIT 50");
+
+            List<SqlRow> rawRows =  randomActors.findList();
+
+            for(SqlRow oneRow :rawRows) {
+                actorsToSee.add(Actor.find.byId(Integer.toString(oneRow.getInteger("id"))));
+            }
+
+            actorsFavored = new ArrayList<Integer>();
+
+
             session().clear();
             session("email", loginForm.get().email);
             return redirect(
