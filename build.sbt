@@ -13,3 +13,5 @@ libraryDependencies ++= Seq(
   javaWs,
   "org.postgresql" % "postgresql" % "9.2-1004-jdbc4"
 )
+
+herokuAppName in Compile := "movie-spin"
