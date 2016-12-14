@@ -4,9 +4,11 @@
 <html lang="en">
     <head>
         <title>Create New User</title>
+        <link rel="stylesheet" href="@routes.Assets.at("stylesheets/main.css")">
     </head>
     <body>
-        <a href="@routes.Application.index">Home Page</a>
+        <a href="@routes.Application.index">Back</a>
+        <div class="center">
 
         @helper.form(routes.Application.makeNewUser) {
             <h1>New User</h1>
@@ -24,7 +26,7 @@
                 <button type="submit">Create</button>
             </p>
         }
-
+        </div>
         @if(form.hasGlobalErrors) {
             <p class="error">
             @form.globalError.message
